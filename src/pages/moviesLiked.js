@@ -1,19 +1,19 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { SafeAreaView, StyleSheet } from "react-native";
+import Colors from "../constants/Colors";
+import Appbar from "../components/Appbar";
 
 export default LikedMoviePage = () => {
   return (
-    <View style={styles.container}>
-      <Text>Home</Text>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <Appbar title="Favorites" />
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "blue",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: Colors.accentColor,
   },
 });

@@ -8,6 +8,7 @@ import Colors from "./src/constants/Colors";
 /** Import Pages */
 import MovieHomePage from "./src/pages/moviesHomePage";
 import LikedMoviePage from "./src/pages/moviesLiked";
+import { StatusBar } from "react-native";
 
 /** Screens Name */
 const movieHomeName = "Movies";
@@ -18,6 +19,7 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   return (
     <NavigationContainer>
+      <StatusBar translucent />
       <Tab.Navigator
         initialRouteName={movieHomeName}
         screenOptions={({ route }) => ({
@@ -26,10 +28,10 @@ export default function App() {
 
             switch (route.name) {
               case movieHomeName:
-                iconName = focused ? faPlayCircle : faPlayCircle;
+                iconName = faPlayCircle;
                 break;
               case likedMovieName:
-                iconName = focused ? faHeart : faHeart;
+                iconName = faHeart;
                 break;
             }
             return (
@@ -49,6 +51,7 @@ export default function App() {
             padding: 10,
             height: 60,
             backgroundColor: Colors.accentColor,
+            borderTopColor: "grey",
           },
         }}
       >
