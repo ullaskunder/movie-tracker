@@ -1,7 +1,7 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faPlayCircle, faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faPlayCircle, faStar } from "@fortawesome/free-solid-svg-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Colors from "./src/constants/Colors";
 
@@ -31,12 +31,10 @@ export default function App() {
                 iconName = faPlayCircle;
                 break;
               case likedMovieName:
-                iconName = faHeart;
+                iconName = faStar;
                 break;
             }
-            return (
-              <FontAwesomeIcon icon={iconName} size={size} color={color} />
-            );
+            return <FontAwesomeIcon icon={iconName} size={18} color={color} />;
           },
         })}
         tabBarOptions={{
