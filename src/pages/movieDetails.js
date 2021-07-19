@@ -121,7 +121,8 @@ export default MovieDetailPage = ({ navigation, route }) => {
         <Text style={styles.footerText}>
           Release Date - {Moment(movie.released_on).format("d MMM yyyy")}
         </Text>
-        <View style={{ alignItems: "center", marginTop: 20 }}>
+        {/* Watch Now Button */}
+        <View style={{ alignItems: "center", marginVertical: 20 }}>
           <Button>Watch Now</Button>
         </View>
       </ScrollView>
