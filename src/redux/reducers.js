@@ -9,7 +9,11 @@ export const movieReducer = (state = initialState, action) => {
     case ADD_LIKE:
       return {
         ...state,
-        likedMovies: state.likedMovies.concat(action.data),
+        likedMovies: !state.likedMovies.some(
+          (item) => item.id == action.data.id
+        )
+          ? state.likedMovies.concat(action.data)
+          : state.likedMovies,
       };
     case REMOVE_LIKE:
       return {
