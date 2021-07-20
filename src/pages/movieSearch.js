@@ -13,6 +13,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import MovieRatingCard from "../components/MovieRatingCard";
 import Divider from "../components/Divider";
+import FloatingActionButton from "../components/FloatingActionButton";
+import { BottomSheet } from "react-native-elements";
 
 export default MovieSearchPage = ({ route, navigation }) => {
   const movies = route.params.movies;
@@ -32,6 +34,31 @@ export default MovieSearchPage = ({ route, navigation }) => {
       setText(val);
     }
   };
+
+  const [isVisible, setIsVisible] = useState(false);
+  const list = [
+    { title: "List Item 1" },
+    { title: "List Item 2" },
+    {
+      title: "Cancel",
+      containerStyle: { backgroundColor: "red" },
+      titleStyle: { color: "white" },
+      onPress: () => setIsVisible(false),
+    },
+  ];
+
+  <BottomSheet
+    isVisible={isVisible}
+    containerStyle={{ backgroundColor: "rgba(0.5, 0.25, 0, 0.2)" }}
+  >
+    {list.map((l, i) => (
+      <ListItem key={i} containerStyle={l.containerStyle} onPress={l.onPress}>
+        <ListItem.Content>
+          <ListItem.Title style={l.titleStyle}>{l.title}</ListItem.Title>
+        </ListItem.Content>
+      </ListItem>
+    ))}
+  </BottomSheet>;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -71,6 +98,7 @@ export default MovieSearchPage = ({ route, navigation }) => {
       ) : (
         <Error></Error>
       )}
+      <FloatingActionButton onClick={() => setIsVisible(!isVisible)} />
     </SafeAreaView>
   );
 };
