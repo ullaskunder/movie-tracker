@@ -1,11 +1,9 @@
 {
   "expo": {
-    "name": "rn_proj",
-    "slug": "rn_proj",
+    "name": "Movie Tracker",
+    "slug": "movie_tracker",
     "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ]
+    "assetBundlePatterns": ["**/*"]
   },
-  "name": "rn_proj"
+  "name": "Movie Tracker"
 }

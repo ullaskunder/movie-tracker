@@ -38,6 +38,7 @@ export default function App() {
           },
         })}
         tabBarOptions={{
+          keyboardHidesTabBar: true,
           activeTintColor: Colors.primaryColor,
           inactiveTintColor: "white",
           labelStyle: {

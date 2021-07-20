@@ -13,3 +13,6 @@ To run the project using expo-client use,
 ```bash
 npm run dev
 ```
+
+Quick demo of the application
+![](demo.gif)
