@@ -14,12 +14,14 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import MovieRatingCard from "../components/MovieRatingCard";
 import Divider from "../components/Divider";
 import FloatingActionButton from "../components/FloatingActionButton";
-import { BottomSheet } from "react-native-elements";
+import { BottomSheet, ListItem } from "react-native-elements";
+import Data from "../constants/Data";
 
 export default MovieSearchPage = ({ route, navigation }) => {
   const movies = route.params.movies;
   const [text, setText] = useState("");
   const [filteredMovies, setFilterdMovies] = useState(movies);
+  const [isVisible, setIsVisible] = useState(false);
 
   const searchMovies = (val) => {
     if (text) {
@@ -35,30 +37,18 @@ export default MovieSearchPage = ({ route, navigation }) => {
     }
   };
 
-  const [isVisible, setIsVisible] = useState(false);
-  const list = [
-    { title: "List Item 1" },
-    { title: "List Item 2" },
-    {
-      title: "Cancel",
-      containerStyle: { backgroundColor: "red" },
-      titleStyle: { color: "white" },
-      onPress: () => setIsVisible(false),
-    },
-  ];
-
-  <BottomSheet
-    isVisible={isVisible}
-    containerStyle={{ backgroundColor: "rgba(0.5, 0.25, 0, 0.2)" }}
-  >
-    {list.map((l, i) => (
-      <ListItem key={i} containerStyle={l.containerStyle} onPress={l.onPress}>
-        <ListItem.Content>
-          <ListItem.Title style={l.titleStyle}>{l.title}</ListItem.Title>
-        </ListItem.Content>
-      </ListItem>
-    ))}
-  </BottomSheet>;
+  const sortMovies = (type) => {
+    setIsVisible(false);
+    if (type !== "NONE") {
+      setFilterdMovies(
+        filteredMovies.sort(
+          (a, b) =>
+            parseFloat((type == "ASC" ? a : b).imdb_rating) -
+            parseFloat((type == "ASC" ? b : a).imdb_rating)
+        )
+      );
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -99,6 +89,24 @@ export default MovieSearchPage = ({ route, navigation }) => {
         <Error></Error>
       )}
       <FloatingActionButton onClick={() => setIsVisible(!isVisible)} />
+      <BottomSheet
+        isVisible={isVisible}
+        containerStyle={{ backgroundColor: "rgba(0.5, 0.25, 0, 0.2)" }}
+      >
+        {Data.filterBottomSheetData.map((filterData, i) => (
+          <ListItem
+            key={i}
+            containerStyle={filterData.containerStyle}
+            onPress={() => sortMovies(filterData.type)}
+          >
+            <ListItem.Content>
+              <ListItem.Title style={filterData.titleStyle}>
+                {filterData.title}
+              </ListItem.Title>
+            </ListItem.Content>
+          </ListItem>
+        ))}
+      </BottomSheet>
     </SafeAreaView>
   );
 };
