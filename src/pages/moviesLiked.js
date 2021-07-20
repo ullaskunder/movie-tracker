@@ -12,7 +12,12 @@ export default LikedMoviePage = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Appbar title="Favorites" />
+      <Appbar
+        title="Favorites"
+        onClick={() =>
+          navigation.navigate("Search", { movies: movies, isLiked: true })
+        }
+      />
 
       {movies.length > 0 ? (
         <FlatList

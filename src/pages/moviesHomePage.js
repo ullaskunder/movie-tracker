@@ -70,7 +70,7 @@ export default MovieHomePage = () => {
           />
         ) : (
           <ScrollView style={styles.body}>
-            <Carousel movies={categorizedMovies} />
+            <Carousel movies={categorizedMovies} navigation={navigation} />
             {Object.keys(categorizedMovies).length > 0 ? (
               Object.keys(categorizedMovies).map((item, index) => {
                 return (

@@ -1,10 +1,15 @@
 import React from "react";
-import { StyleSheet, View, ImageBackground } from "react-native";
+import {
+  StyleSheet,
+  View,
+  ImageBackground,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { SwiperFlatList } from "react-native-swiper-flatlist";
 import Colors from "../constants/Colors";
 import Sizes from "../constants/Sizes";
 
-export default Carousel = ({ movies }) => {
+export default Carousel = ({ movies, navigation }) => {
   return (
     <View style={styles.container}>
       <SwiperFlatList
@@ -16,12 +21,16 @@ export default Carousel = ({ movies }) => {
         data={movies["7+"]}
         paginationStyleItem={{ height: 10, width: 10 }}
         renderItem={({ item }) => (
-          <ImageBackground
-            source={{ uri: item.backdrop }}
-            style={styles.headerImage}
-            resizeMode="stretch"
-            imageStyle={{ opacity: 0.8, borderRadius: 6 }}
-          />
+          <TouchableWithoutFeedback
+            onPress={() => navigation.navigate("Details", { movie: item })}
+          >
+            <ImageBackground
+              source={{ uri: item.backdrop }}
+              style={styles.headerImage}
+              resizeMode="stretch"
+              imageStyle={{ opacity: 0.8, borderRadius: 6 }}
+            />
+          </TouchableWithoutFeedback>
         )}
       />
     </View>

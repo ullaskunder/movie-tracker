@@ -61,6 +61,7 @@ export default MovieSearchPage = ({ route, navigation }) => {
                 movie={movie.item}
                 navigation={navigation}
                 isClickable={true}
+                isLiked={route.params.isLiked}
               />
               <Divider />
             </View>
