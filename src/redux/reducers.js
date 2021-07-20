@@ -1,15 +1,22 @@
-import { ADDLIKE, REMOVELIKE } from "./types";
+import { ADD_LIKE, REMOVE_LIKE } from "./types";
 
 const initialState = {
-    likedMovies = [],
-}
+  likedMovies: [],
+};
 
-export const movieReducer = (state=initialState,action)=>{
-    switch(action.type){
-        case ADDLIKE: 
-        return {...state,likedMovies:[]}
-case REMOVELIKE: 
-        return {...state,likedMovies:[]}
-        default: return state;
-    }
-}
+export const movieReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case ADD_LIKE:
+      return {
+        ...state,
+        likedMovies: state.likedMovies.concat(action.data),
+      };
+    case REMOVE_LIKE:
+      return {
+        ...state,
+        likedMovies: state.likedMovies.filter((item) => item.id !== action.id),
+      };
+    default:
+      return state;
+  }
+};

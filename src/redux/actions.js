@@ -1,4 +1,4 @@
-import { ADDLIKE, REMOVELIKE } from "./types";
+import { ADD_LIKE, REMOVE_LIKE } from "./types";
 
-export const addToLiked = () => ({ type: ADDLIKE });
-export const removeFromLiked = () => ({ type: REMOVELIKE });
+export const addToLiked = (movie) => ({ type: ADD_LIKE, data: movie });
+export const removeFromLiked = (id) => ({ type: REMOVE_LIKE, id: id });

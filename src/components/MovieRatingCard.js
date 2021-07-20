@@ -10,9 +10,22 @@ import Colors from "../constants/Colors";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { showToast } from "../utils/showToast";
+import { useDispatch } from "react-redux";
+import { addToLiked, removeFromLiked } from "../redux/actions";
 
 export default MovieRatingCard = ({ movie, isLiked }) => {
   const [liked, setLiked] = useState(isLiked);
+  const dispatch = useDispatch();
+
+  const handleLike = () => {
+    !liked ? dispatch(addToLiked(movie)) : dispatch(removeFromLiked(movie.id));
+    showToast(
+      !liked
+        ? `${movie.title} added to favorite`
+        : `${movie.title} removed from favorite`
+    );
+    setLiked(!liked);
+  };
   return (
     <View
       style={{
@@ -41,16 +54,7 @@ export default MovieRatingCard = ({ movie, isLiked }) => {
         <Text style={styles.subTitle}>Category {movie.classification}</Text>
       </View>
       <View style={styles.likeButton}>
-        <TouchableOpacity
-          onPress={() => {
-            showToast(
-              !liked
-                ? `${movie.title} added to favorite`
-                : `${movie.title} removed from favorite`
-            );
-            setLiked(!liked);
-          }}
-        >
+        <TouchableOpacity onPress={handleLike}>
           <FontAwesomeIcon
             icon={faStar}
             color={liked ? Colors.starColor : "grey"}

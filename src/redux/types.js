@@ -1,2 +1,2 @@
-export const ADDLIKE = "ADDLIKE";
-export const REMOVELIKE = "REMOVELIKE";
+export const ADD_LIKE = "ADD_LIKE";
+export const REMOVE_LIKE = "REMOVE_LIKE";
