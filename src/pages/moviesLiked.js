@@ -4,27 +4,31 @@ import Colors from "../constants/Colors";
 import Appbar from "../components/Appbar";
 import MovieRatingCard from "../components/MovieRatingCard";
 import Divider from "../components/Divider";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import Error from "../components/Error";
 
 export default LikedMoviePage = () => {
-  const dispatch = useDispatch();
   const movies = useSelector((state) => state.movies.likedMovies);
 
   return (
     <SafeAreaView style={styles.container}>
       <Appbar title="Favorites" />
 
-      <FlatList
-        data={movies}
-        keyExtractor={(movie) => movie.id}
-        renderItem={(movie) => (
-          <View>
-            <MovieRatingCard movie={movie.item} isLiked={true} />
-            <Divider />
-          </View>
-        )}
-        showsVerticalScrollIndicator={false}
-      />
+      {movies.length > 0 ? (
+        <FlatList
+          data={movies}
+          keyExtractor={(movie) => movie.id}
+          renderItem={(movie) => (
+            <View>
+              <MovieRatingCard movie={movie.item} isLiked={true} />
+              <Divider />
+            </View>
+          )}
+          showsVerticalScrollIndicator={false}
+        />
+      ) : (
+        <Error></Error>
+      )}
     </SafeAreaView>
   );
 };

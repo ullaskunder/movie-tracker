@@ -6,6 +6,7 @@ import {
   View,
   Text,
   FlatList,
+  ActivityIndicator,
 } from "react-native";
 import Colors from "../constants/Colors";
 import Appbar from "../components/Appbar";
@@ -13,15 +14,17 @@ import MovieCard from "../components/MovieCard";
 import MovieDetailPage from "./movieDetails";
 import { createStackNavigator } from "@react-navigation/stack";
 import Carousel from "../components/Carousel";
+import Error from "../components/Error";
 
 const Stack = createStackNavigator();
 
 export default MovieHomePage = () => {
   const [movies, setMoives] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const getMovies = async () => {
     try {
+      setLoading(true);
       const response = await fetch("https://wookie.codesubmit.io/movies", {
         method: "GET",
         headers: new Headers({
@@ -30,6 +33,7 @@ export default MovieHomePage = () => {
         }),
       });
       const json = await response.json();
+      setLoading(false);
       setMoives(
         json.movies.reduce((prev, current) => {
           if (prev[current.classification] == null)
@@ -52,26 +56,37 @@ export default MovieHomePage = () => {
     return (
       <SafeAreaView style={styles.container}>
         <Appbar title="Movie Tracker" />
-
-        <ScrollView style={styles.body}>
-          <Carousel movies={movies} />
-          {Object.keys(movies).map((item, index) => {
-            return (
-              <View key={index}>
-                <Text style={styles.categoryTitle}>{item} Movies</Text>
-                <FlatList
-                  data={movies[item]}
-                  keyExtractor={(movie) => movie.id}
-                  renderItem={(movie) => (
-                    <MovieCard movie={movie.item} navigation={navigation} />
-                  )}
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                />
-              </View>
-            );
-          })}
-        </ScrollView>
+        {loading ? (
+          <ActivityIndicator
+            size="large"
+            color={Colors.primaryColor}
+            style={{ alignItems: "center", flex: 1 }}
+          />
+        ) : (
+          <ScrollView style={styles.body}>
+            <Carousel movies={movies} />
+            {Object.keys(movies).length > 0 ? (
+              Object.keys(movies).map((item, index) => {
+                return (
+                  <View key={index}>
+                    <Text style={styles.categoryTitle}>{item} Movies</Text>
+                    <FlatList
+                      data={movies[item]}
+                      keyExtractor={(movie) => movie.id}
+                      renderItem={(movie) => (
+                        <MovieCard movie={movie.item} navigation={navigation} />
+                      )}
+                      horizontal
+                      showsHorizontalScrollIndicator={false}
+                    />
+                  </View>
+                );
+              })
+            ) : (
+              <Error></Error>
+            )}
+          </ScrollView>
+        )}
       </SafeAreaView>
     );
   };
