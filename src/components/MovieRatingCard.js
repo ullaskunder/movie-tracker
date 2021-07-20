@@ -5,6 +5,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   Text,
+  TouchableWithoutFeedback,
 } from "react-native";
 import Colors from "../constants/Colors";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
@@ -13,7 +14,12 @@ import { showToast } from "../utils/showToast";
 import { useDispatch } from "react-redux";
 import { addToLiked, removeFromLiked } from "../redux/actions";
 
-export default MovieRatingCard = ({ movie, isLiked }) => {
+export default MovieRatingCard = ({
+  movie,
+  isLiked,
+  navigation,
+  isClickable,
+}) => {
   const [liked, setLiked] = useState(isLiked);
   const dispatch = useDispatch();
 
@@ -27,44 +33,50 @@ export default MovieRatingCard = ({ movie, isLiked }) => {
     setLiked(!liked);
   };
   return (
-    <View
-      style={{
-        flexDirection: "row",
-        paddingHorizontal: 10,
-        alignItems: "center",
+    <TouchableWithoutFeedback
+      onPress={() => {
+        if (isClickable) navigation.navigate("Details", { movie: movie });
       }}
     >
-      <ImageBackground
-        source={{ uri: movie.poster }}
-        style={{ height: 90, width: 70 }}
-        imageStyle={{ borderRadius: 6 }}
-      />
-      <View style={{ marginLeft: 12 }}>
-        <Text
-          style={{
-            color: Colors.textColor,
-            fontWeight: "bold",
-            fontSize: 14,
-          }}
-        >
-          {movie.title}
-        </Text>
-        <Text style={styles.subTitle}>IMDB Rating ★ {movie.imdb_rating}</Text>
-        <Text style={styles.subTitle}>{movie.genres.join(" - ")}</Text>
-        <Text style={styles.subTitle}>Category {movie.classification}</Text>
+      <View
+        style={{
+          flexDirection: "row",
+          paddingHorizontal: 10,
+          alignItems: "center",
+        }}
+      >
+        <ImageBackground
+          source={{ uri: movie.poster }}
+          style={{ height: 90, width: 70 }}
+          imageStyle={{ borderRadius: 6 }}
+        />
+        <View style={{ marginLeft: 12 }}>
+          <Text
+            style={{
+              color: Colors.textColor,
+              fontWeight: "bold",
+              fontSize: 14,
+            }}
+          >
+            {movie.title}
+          </Text>
+          <Text style={styles.subTitle}>IMDB Rating ★ {movie.imdb_rating}</Text>
+          <Text style={styles.subTitle}>{movie.genres.join(" - ")}</Text>
+          <Text style={styles.subTitle}>Category {movie.classification}</Text>
+        </View>
+        <View style={styles.likeButton}>
+          <TouchableOpacity onPress={handleLike}>
+            <FontAwesomeIcon
+              icon={faStar}
+              color={liked ? Colors.starColor : "grey"}
+              size={22}
+              style={{ marginBottom: 4 }}
+            />
+          </TouchableOpacity>
+          <Text style={styles.subTitle}>Add to Favorite</Text>
+        </View>
       </View>
-      <View style={styles.likeButton}>
-        <TouchableOpacity onPress={handleLike}>
-          <FontAwesomeIcon
-            icon={faStar}
-            color={liked ? Colors.starColor : "grey"}
-            size={22}
-            style={{ marginBottom: 4 }}
-          />
-        </TouchableOpacity>
-        <Text style={styles.subTitle}>Add to Favorite</Text>
-      </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 

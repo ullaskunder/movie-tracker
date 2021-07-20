@@ -4,11 +4,11 @@ import Colors from "../constants/Colors";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
-export default Appbar = ({ title }) => {
+export default Appbar = ({ title, onClick }) => {
   return (
     <View style={styles.appbar}>
       <Text style={styles.title}>{title}</Text>
-      <TouchableOpacity onPress={() => console.log("Search..")}>
+      <TouchableOpacity onPress={onClick}>
         <FontAwesomeIcon icon={faSearch} size={20} color={Colors.textColor} />
       </TouchableOpacity>
     </View>

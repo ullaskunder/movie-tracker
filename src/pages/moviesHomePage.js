@@ -12,6 +12,7 @@ import Colors from "../constants/Colors";
 import Appbar from "../components/Appbar";
 import MovieCard from "../components/MovieCard";
 import MovieDetailPage from "./movieDetails";
+import MovieSearchPage from "./movieSearch";
 import { createStackNavigator } from "@react-navigation/stack";
 import Carousel from "../components/Carousel";
 import Error from "../components/Error";
@@ -20,6 +21,7 @@ const Stack = createStackNavigator();
 
 export default MovieHomePage = () => {
   const [movies, setMoives] = useState([]);
+  const [categorizedMovies, setCategorizedMovies] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const getMovies = async () => {
@@ -34,7 +36,8 @@ export default MovieHomePage = () => {
       });
       const json = await response.json();
       setLoading(false);
-      setMoives(
+      setMoives(json.movies);
+      setCategorizedMovies(
         json.movies.reduce((prev, current) => {
           if (prev[current.classification] == null)
             prev[current.classification] = [];
@@ -55,7 +58,10 @@ export default MovieHomePage = () => {
   const MoviePage = ({ navigation }) => {
     return (
       <SafeAreaView style={styles.container}>
-        <Appbar title="Movie Tracker" />
+        <Appbar
+          title="Movie Tracker"
+          onClick={() => navigation.navigate("Search", { movies: movies })}
+        />
         {loading ? (
           <ActivityIndicator
             size="large"
@@ -64,14 +70,14 @@ export default MovieHomePage = () => {
           />
         ) : (
           <ScrollView style={styles.body}>
-            <Carousel movies={movies} />
-            {Object.keys(movies).length > 0 ? (
-              Object.keys(movies).map((item, index) => {
+            <Carousel movies={categorizedMovies} />
+            {Object.keys(categorizedMovies).length > 0 ? (
+              Object.keys(categorizedMovies).map((item, index) => {
                 return (
                   <View key={index}>
                     <Text style={styles.categoryTitle}>{item} Movies</Text>
                     <FlatList
-                      data={movies[item]}
+                      data={categorizedMovies[item]}
                       keyExtractor={(movie) => movie.id}
                       renderItem={(movie) => (
                         <MovieCard movie={movie.item} navigation={navigation} />
@@ -97,6 +103,7 @@ export default MovieHomePage = () => {
     >
       <Stack.Screen name="Home" component={MoviePage} />
       <Stack.Screen name="Details" component={MovieDetailPage} />
+      <Stack.Screen name="Search" component={MovieSearchPage} />
     </Stack.Navigator>
   );
 };

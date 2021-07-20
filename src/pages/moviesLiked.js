@@ -7,7 +7,7 @@ import Divider from "../components/Divider";
 import { useSelector } from "react-redux";
 import Error from "../components/Error";
 
-export default LikedMoviePage = () => {
+export default LikedMoviePage = ({ navigation }) => {
   const movies = useSelector((state) => state.movies.likedMovies);
 
   return (
@@ -20,7 +20,12 @@ export default LikedMoviePage = () => {
           keyExtractor={(movie) => movie.id}
           renderItem={(movie) => (
             <View>
-              <MovieRatingCard movie={movie.item} isLiked={true} />
+              <MovieRatingCard
+                movie={movie.item}
+                isLiked={true}
+                isClickable={true}
+                navigation={navigation}
+              />
               <Divider />
             </View>
           )}
