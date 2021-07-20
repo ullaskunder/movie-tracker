@@ -12,6 +12,7 @@ import Appbar from "../components/Appbar";
 import MovieCard from "../components/MovieCard";
 import MovieDetailPage from "./movieDetails";
 import { createStackNavigator } from "@react-navigation/stack";
+import Carousel from "../components/Carousel";
 
 const Stack = createStackNavigator();
 
@@ -53,6 +54,7 @@ export default MovieHomePage = () => {
         <Appbar title="Movie Tracker" />
 
         <ScrollView style={styles.body}>
+          <Carousel movies={movies} />
           {Object.keys(movies).map((item, index) => {
             return (
               <View key={index}>
@@ -90,7 +92,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.accentColor,
   },
   body: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
   },
   categoryTitle: {
     fontSize: 16,
